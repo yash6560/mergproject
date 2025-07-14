@@ -1,6 +1,14 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import {LogOut} from 'lucide-react';
+import { useAuthStore } from '../store/useAuthStore';
 
 const Navbar = () => {
+  const { authUser, fetchAuthUser, logOut } = useAuthStore();
+
+  const handleLogout = async() => {
+    await logOut();
+    await fetchAuthUser();
+  }
   return (
     <div className="navbar bg-base-300 shadow-md px-4">
       <div className="flex-1">
@@ -10,7 +18,7 @@ const Navbar = () => {
       </div>
       <div className="hidden md:flex gap-2">
         <Link to="/about" className="btn btn-ghost">About</Link>
-        <Link to="/login" className="btn btn-ghost">Log In</Link>
+        {authUser ? <button onClick={handleLogout} className="btn btn-ghost"><LogOut /></button> : <Link to="/login" className="btn btn-ghost">Log In</Link>}
       </div>
       {/* Mobile menu */}
       <div className="dropdown dropdown-end md:hidden">
@@ -22,7 +30,7 @@ const Navbar = () => {
         </label>
         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li><Link to="/about">About</Link></li>
-          <li><Link to="/login">Log In</Link></li>
+          <li>{authUser ? <button onClick={handleLogout} className="btn btn-ghost"><LogOut /></button> : <Link to="/login">Log In</Link>}</li>
         </ul>
       </div>
     </div>
