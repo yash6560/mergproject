@@ -8,10 +8,11 @@ import Layout from './components/Layout';
 import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
+import ChatPage from './pages/ChatPage';
 
 
 function App() {
-  const { fetchAuthUser } = useAuthStore();
+  const { fetchAuthUser, authUser } = useAuthStore();
 
   useEffect(() => {
     const fetchUser = async() => {
@@ -30,6 +31,7 @@ function App() {
           <Route path="/login" element={<LoginPage/>}/>
           <Route path="/signup" element={<SignUpPage/>}/>
           <Route path="/about" element={<Layout><AboutPage/></Layout>}/>
+          <Route path="/chat" element={authUser ? <Layout><ChatPage/></Layout> : <LoginPage/>}/>
         </Routes>
         
         <Toaster />
