@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { CirclePlus, Send} from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useChatStore } from '../store/useChatStore';
+import { socket } from '../utils/socket';
 
 const SendSection = () => {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null);
   const [text, setText] = useState('');
 
-  const {sendMessage, selectedUser } = useChatStore();
+  const {sendMessage, selectedUser, addMessage  } = useChatStore();
 
   const fileSelect = (e) => {
     const file = e.target.files[0];
@@ -25,6 +26,11 @@ const SendSection = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    
+    if (!text.trim() && !image) {
+  return; // Don't send empty message
+}
+
     const formData = new FormData();
     formData.append('text', text);
     if(image) {
@@ -34,7 +40,13 @@ const SendSection = () => {
       formData.append('receiverId', selectedUser._id);
     }
 
-    await sendMessage(formData);
+    const message = await sendMessage(formData);
+
+    // ✅ Optimistically update UI
+    addMessage(message);
+
+    //emit message in socket.io
+    socket.emit('send_message', message);  // message = server response
 
     setText('');
     setImage(null);

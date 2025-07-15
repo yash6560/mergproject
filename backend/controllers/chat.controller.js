@@ -24,7 +24,7 @@ const sendMessage = async (req, res) => {
             image : image || '',
         });
 
-    return res.status(200).json({message: "message Sent", success: true });
+    return res.status(200).json(newMessage);
         
     } catch (error) {
         console.log(`error message : `, error);

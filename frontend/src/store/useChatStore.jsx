@@ -4,6 +4,7 @@ import { axiosInstance } from '../utils/axios';
 export const useChatStore = create((set) => ({
     userList : [],
     selectedUser: null,
+    messages: [],
 
     setSelectedUser : (user) => {
         set({ selectedUser : user });
@@ -43,5 +44,19 @@ export const useChatStore = create((set) => ({
         } catch (error) {
             console.log(`error in get message : `, error);
         }
-    }
+    },
+
+    addMessage : (message) => {
+        set((state) => {
+            const updatedMessages = state.messages ? [...state.messages, message] : [message];
+            return { messages : updatedMessages }
+        })
+    },
+
+    clearMessages : () => {
+        set((state) => {
+            return { ...state, message: []}
+        })
+    },
+
 }));
