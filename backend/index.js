@@ -9,7 +9,8 @@ const http = require('http');
 const { DBConnect } = require('./DB/db');
 const cookieParser = require('cookie-parser');
 const authRouter = require('./routers/auth.route');
-const chatRouter = require('./routers/chat.route')
+const chatRouter = require('./routers/chat.route');
+const fileRouter = require('./routers/file.route');
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(cookieParser());
 
 app.use('/api/auth', authRouter);
 app.use('/api/chat', chatRouter);
+app.use('/api/file', fileRouter);
 
 //connect socket io to frontend
 const io = new Server(server, {

@@ -28,6 +28,10 @@ const authModel = new mongoose.Schema(
         type: Number,
         default: '',
     },
+    filesUploded : {
+      type: [String],
+      default: []
+    }
 
   },
   {

@@ -8,6 +8,7 @@ import { Toaster } from 'react-hot-toast';
 import { useAuthStore } from './store/useAuthStore';
 import { useEffect } from 'react';
 import ChatPage from './pages/ChatPage';
+import FileUpload from './pages/FileUpload';
 
 function App() {
   const { fetchAuthUser, authUser } = useAuthStore();
@@ -30,6 +31,7 @@ function App() {
           <Route path="/signup" element={<SignUpPage/>}/>
           <Route path="/about" element={<Layout><AboutPage/></Layout>}/>
           <Route path="/chat" element={authUser ? <Layout><ChatPage/></Layout> : <LoginPage/>}/>
+          <Route path="/file-upload" element={authUser ? <Layout><FileUpload/></Layout> : <LoginPage/>}/>
         </Routes>
         
         <Toaster />
